@@ -1,12 +1,14 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.StringJoiner;
 
 /**
  * DO THE DOCUMENTATION YOU LAZY ASS
  * Created by Hugues on 24/10/2016.
  */
-public class gameMatrix {
+public class GameMatrix {
     public static int defaultSize = 4;
     public static int emptySquareMarker = 0;
 
@@ -15,25 +17,35 @@ public class gameMatrix {
     private int size;
 
 
-    public gameMatrix(int size) {
+    public GameMatrix(int size) {
 
         // If the size is incorrect, put the default one
         if (size <= 0) size = defaultSize;
+        this.size = size;
 
         squaresArray = new int[size][size];
+        this.initialize();
+
+    }
+
+    /**
+     * Initializes the grid (fill it and shuffle it)
+     */
+    private void initialize(){
         int num = 1;
         for(int i=0; i<size; i++){
             for(int j=0; j<size; j++){
-                squaresArray[i][j] = num;
+                this.squaresArray[i][j] = num;
                 num+=1;
             }
         }
 
-        //Put the last square as a null (0)
-        squaresArray[size][size] = emptySquareMarker;
+        //Put the last square as an empty one
+        this.squaresArray[size-1][size-1] = emptySquareMarker;
 
-        this.size = size;
+        this.shuffle();
     }
+
 
     /**
      * Returns the value inside the square (x,y)
@@ -96,7 +108,7 @@ public class gameMatrix {
     /**
      * Checks the integrity of the grid.
      * The grid is correct if every value is unique and within the bounds
-     * @return
+     * @return true if the integrity is checked
      */
     public boolean checkIntegrity(){
 
@@ -106,17 +118,21 @@ public class gameMatrix {
         ArrayList<Integer> valuesList = new ArrayList<>(max + 1);
 
         boolean integrityChecked = true;
+        int value;
 
         // Return false ..
         for(int i=0; i<size; i++){
             for(int j=0; j<size; j++){
+                value = squaresArray[i][j];
                 //... If the value is not within bounds ( 1 to max)
-                if ((squaresArray[i][j] < min && squaresArray[i][j] != emptySquareMarker)
-                        || squaresArray[i][j] > max) {
+                if ((value < min && value != emptySquareMarker)
+                        || value > max) {
                     return  false;
                 }
                 //... If the value is already existing
-                if (valuesList.contains((Integer)squaresArray[i][j])) return false;
+                if (valuesList.contains(value)) return false;
+
+                valuesList.add(value);
             }
         }
 
@@ -124,7 +140,44 @@ public class gameMatrix {
         return  true;
     }
 
+    /**
+     * Shuffles the grid
+     */
+    public void shuffle(){
 
+        shuffleGrid(this.squaresArray, this.size, new Random());
+    }
+
+    /** Shuffles a 2D array with the same number of columns for each row. */
+    private static void shuffleGrid(int[][] matrix, int columns, Random rnd) {
+        int size = matrix.length * columns;
+        for (int i = size; i > 1; i--)
+            swap(matrix, columns, i - 1, rnd.nextInt(i));
+    }
+
+    /**
+     * Swaps two entries in a 2D array, where i and j are 1-dimensional indexes, looking at the
+     * array from left to right and top to bottom.
+     */
+    private static void swap(int[][] matrix, int columns, int i, int j) {
+        int tmp = matrix[i / columns][i % columns];
+        matrix[i / columns][i % columns] = matrix[j / columns][j % columns];
+        matrix[j / columns][j % columns] = tmp;
+    }
+
+
+    public String toString() {
+        String str = "";
+        for (int i = 0; i < size; i++) {
+            str += "| ";
+            for (int j = 0; j < size; j++) {
+                str+= String.format("%4d", squaresArray[i][j]) ;
+                str+= " | ";
+            }
+            if (i < size - 1)str+=System.lineSeparator();
+        }
+        return str;
+    }
 
 
 }
