@@ -8,7 +8,7 @@ import java.util.StringJoiner;
  * DO THE DOCUMENTATION YOU LAZY ASS
  * Created by Hugues on 24/10/2016.
  */
-public class GameMatrix {
+public class GameGrid {
     public static int defaultSize = 4;
     public static int emptySquareMarker = 0;
 
@@ -17,7 +17,7 @@ public class GameMatrix {
     private int size;
 
 
-    public GameMatrix(int size) {
+    public GameGrid(int size) {
 
         // If the size is incorrect, put the default one
         if (size <= 0) size = defaultSize;
@@ -48,6 +48,11 @@ public class GameMatrix {
 
 
     /**
+     * @return the size of the grid
+     */
+    public int getSize(){return this.size;}
+
+    /**
      * Returns the value inside the square (x,y)
      * @param x : x coordinate
      * @param y : y coordinate
@@ -55,7 +60,7 @@ public class GameMatrix {
      */
     public int getValueOfSquare(int x, int y){
         try{
-            return squaresArray[x][y];
+            return squaresArray[y][x];
         }
         catch (java.lang.ArrayIndexOutOfBoundsException e){
             System.out.println("ERROR : " + e.getMessage());
@@ -70,8 +75,9 @@ public class GameMatrix {
      * @return true if empty
      */
     public boolean isSquareEmpty(int x, int y){
+        x-=1;y-=1;
         try{
-            return (squaresArray[x][y] != emptySquareMarker);
+            return (squaresArray[y][x] == emptySquareMarker);
         }
         catch (java.lang.ArrayIndexOutOfBoundsException e){
             System.out.println("ERROR : " + e.getMessage());
@@ -88,12 +94,13 @@ public class GameMatrix {
      * @return true if the switch was made
      */
     public boolean switchSquares(int x1, int y1, int x2, int y2){
+        x1-=1;x2-=1;y1-=1;y2-=1;
         try{
             // Do the switch only if one of the squares is the empty one
-             if(squaresArray[x2][y2] == emptySquareMarker || squaresArray[x1][y1] == emptySquareMarker){
-                 int temp = squaresArray[x1][y1];
-                 squaresArray[x2][y2] = squaresArray[x1][y1];
-                 squaresArray[x1][y1] = temp;
+             if(squaresArray[y2][x2] == emptySquareMarker || squaresArray[y1][x1] == emptySquareMarker){
+                 int temp = squaresArray[y2][x2];
+                 squaresArray[y2][x2] = squaresArray[y1][x1];
+                 squaresArray[y1][x1] = temp;
 
                  return true;
              }
@@ -166,6 +173,9 @@ public class GameMatrix {
     }
 
 
+    /**
+     * @return the grid a s a string
+     */
     public String toString() {
         String str = "";
         for (int i = 0; i < size; i++) {
