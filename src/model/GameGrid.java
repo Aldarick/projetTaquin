@@ -1,15 +1,15 @@
 package model;
 
+import controller.MainController;
+
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.StringJoiner;
 
 /**
  * DO THE DOCUMENTATION YOU LAZY ASS
  * Created by Hugues on 24/10/2016.
  */
 public class GameGrid {
-    public static int defaultSize = 4;
     public static int emptySquareMarker = 0;
 
 
@@ -20,7 +20,7 @@ public class GameGrid {
     public GameGrid(int size) {
 
         // If the size is incorrect, put the default one
-        if (size <= 0) size = defaultSize;
+        if (size <= 0) size = MainController.defaultSize;
         this.size = size;
 
         squaresArray = new int[size][size];
@@ -94,17 +94,11 @@ public class GameGrid {
      * @return true if the switch was made
      */
     public boolean switchSquares(int x1, int y1, int x2, int y2){
-        x1-=1;x2-=1;y1-=1;y2-=1;
         try{
-            // Do the switch only if one of the squares is the empty one
-             if(squaresArray[y2][x2] == emptySquareMarker || squaresArray[y1][x1] == emptySquareMarker){
-                 int temp = squaresArray[y2][x2];
-                 squaresArray[y2][x2] = squaresArray[y1][x1];
-                 squaresArray[y1][x1] = temp;
-
+                 int temp = squaresArray[x2][y2];
+                 squaresArray[x2][y2] = squaresArray[x1][y1];
+                 squaresArray[x1][y1] = temp;
                  return true;
-             }
-            return false;
         }
         catch (java.lang.ArrayIndexOutOfBoundsException e){
             System.out.println("ERROR : " + e.getMessage());
@@ -124,7 +118,6 @@ public class GameGrid {
 
         ArrayList<Integer> valuesList = new ArrayList<>(max + 1);
 
-        boolean integrityChecked = true;
         int value;
 
         // Return false ..
@@ -142,15 +135,13 @@ public class GameGrid {
                 valuesList.add(value);
             }
         }
-
-
         return  true;
     }
 
     /**
      * Shuffles the grid
      */
-    public void shuffle(){
+    private void shuffle(){
 
         shuffleGrid(this.squaresArray, this.size, new Random());
     }
@@ -189,5 +180,42 @@ public class GameGrid {
         return str;
     }
 
+    /**
+     * @return an arrayList containing the values from top to bottom, left to right
+     */
+    public ArrayList<Integer> toArrayList(){
+        ArrayList<Integer> myInt = new ArrayList<>(size*size);
+
+
+
+        for(int i = 0; i <size; i++){
+            for(int j=0; j<size;j++){
+                myInt.add(squaresArray[i][j]);
+            }
+        }
+        System.out.println("Array :" + myInt.toString());
+
+        return myInt;
+    }
+
+    /**
+     * @return : an array containing the x and y of the empty square
+     */
+    public int[] coordinatesOfEmpty() {
+        int x = -5;
+        int y = -5;
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if(squaresArray[j][i] == emptySquareMarker){
+                    x = j;
+                    y = i;
+                }
+            }
+        }
+        int coord[] = new int[2];
+        coord[0] = x;
+        coord[1] = y;
+        return  coord;
+    }
 
 }
