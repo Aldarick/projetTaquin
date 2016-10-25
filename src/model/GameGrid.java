@@ -263,6 +263,55 @@ public class GameGrid {
         return myInt;
     }
 
+    /**
+     * @param tile : Tile
+     * @return : the value of a tile
+     */
+    public int valueOf(Tile tile) {
+        int x = tile.getX();
+        int y = tile.getY();
+        if (!(tile.getX() < 0 || tile.getX() >= this.size
+                || tile.getY() < 0 || tile.getY() >= this.size)) {
+            return this.tilesArray[x][y];
+        }
+        else return -5;
+    }
+
+    /**
+     * @param value : the value to find
+     * @return a Tile with the coordinates of the value
+     */
+    public Tile whereIs(int value){
+        int x = -5;
+        int y = -5;
+
+        if((value >= 0 && value <= this.size * this.size - 1) || value == this.emptyTileMarker){
+            for(int i=0; i<size; i++) {
+                for (int j = 0; j < size; j++) {
+                    if (value == tilesArray[i][j]){
+                        x = i;
+                        y = j;
+                    }
+                }
+            }
+        }
+
+        return new Tile(x,y);
+    }
+
+    /**
+     * @return : the grid state
+     */
+    public int[][] getGrid(){
+        // We return a clone for security reasons
+        int[][] clone = new int[size][size];
+        for(int i=0;i<size;i++){
+            System.arraycopy(this.tilesArray[i], 0, clone[i], 0, size);
+        }
+        return clone;
+    }
+
+
     /*
     /**
      * @return : an array containing the x and y of the empty square

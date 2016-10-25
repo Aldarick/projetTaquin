@@ -31,6 +31,12 @@ public class MainController {
         Tile empty = this.gameGrid.emptyTile();
 
 
+        System.out.println(" --- Test ---");
+        int value = this.gameGrid.valueOf(new Tile(x,y));
+        System.out.println("   Value of tile : " + value);
+        Tile coord = this.gameGrid.whereIs(value);
+        System.out.println("   Coordinates of " + value + " : (" + coord.getX() + " ; " + coord.getY() + ")");
+        System.out.println(" ------------");
         System.out.println("Requesting swap between : (" + x + " ; " + y + ") and (" + empty.getX() + " ; " + empty.getY() + ")");
 
         if(this.gameGrid.move(new Tile(x,y))){
@@ -41,6 +47,7 @@ public class MainController {
         else {
             System.out.println("Incorrect move");
         }
+        System.out.println("========================");
 
     }
 
