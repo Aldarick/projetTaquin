@@ -1,16 +1,17 @@
 package view;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
  * pouet
  * Created by Hugues on 24/10/2016.
  */
-class SquareButton extends Button {
+class TileButton extends JButton {
 
     private int squareX, squareY;
 
-    SquareButton(String label, int squareX, int squareY) throws HeadlessException {
+    TileButton(String label, int squareX, int squareY) throws HeadlessException {
         super(label);
         this.squareX = squareX;
         this.squareY = squareY;
@@ -35,10 +36,10 @@ class SquareButton extends Button {
         return super.getLabel();
     }
 
-    public void setEmpty(){
+    void setEmpty(){
         this.setBackground(Color.lightGray);
     }
-    public void setFilled(){
+    void setFilled(){
         this.setBackground(null);
     }
 }
