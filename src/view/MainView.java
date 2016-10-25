@@ -1,14 +1,11 @@
 package view;
 import controller.MainController;
-import javafx.event.ActionEvent;
 import model.GameGrid;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-
-import static java.lang.Math.sqrt;
 
 /**
  * Heeeeeey
@@ -54,7 +51,7 @@ public class MainView extends JFrame implements ActionListener {
             btn.addActionListener(this);
 
 
-            if (btn.getLabel().equals(Integer.toString(GameGrid.emptySquareMarker))) btn.setEmpty();
+            if (btn.getLabel().equals(Integer.toString(GameGrid.emptyTileMarker))) btn.setEmpty();
         }
     }
 

@@ -1,8 +1,7 @@
 package controller;
 import model.GameGrid;
+import model.Tile;
 import view.MainView;
-
-import java.awt.*;
 
 /**
  * Coucou <3
@@ -10,6 +9,7 @@ import java.awt.*;
  */
 public class MainController {
     public static int defaultSize = 4;
+    public static int defaultRandomMovesNumber = 25;
 
     private MainView view;
     private GameGrid gameGrid;
@@ -28,51 +28,21 @@ public class MainController {
      * @param y : the y coordinate
      */
     public void requestSwap(int x, int y){
-        int emptyX, emptyY;
-        int coord[] = this.gameGrid.coordinatesOfEmpty();
-        emptyX = coord[0];
-        emptyY = coord[1];
+        Tile empty = this.gameGrid.emptyTile();
 
-        System.out.println("Requesting swap between : (" + x + " ; " + y + ") and (" + emptyX + " ; " + emptyY + ")");
 
-        if(this.coordAreNeighbours(x,y,emptyX,emptyY)){
+        System.out.println("Requesting swap between : (" + x + " ; " + y + ") and (" + empty.getX() + " ; " + empty.getY() + ")");
+
+        if(this.gameGrid.move(new Tile(x,y))){
             System.out.println("Swapping");
-            if(this.gameGrid.switchSquares(x,y,emptyX,emptyY)){
-                System.out.println("Swapping successful");
-            }else {
-                System.out.println("Swapping failed!!!");
-            }
-
-
-            this.view.swapButtons(x,y,emptyX,emptyY);
+            this.view.swapButtons(x,y,empty.getX(),empty.getY());
             System.out.println(this.gameGrid.toString());
+        }
+        else {
+            System.out.println("Incorrect move");
         }
 
     }
-
-    /**
-     * Tells if two coordinates of those of neighbours
-     * @param x1 : the x coordinate of the first button
-     * @param y1 : the y coordinate of the first button
-     * @param x2 : the x coordinate of the second button
-     * @param y2 : the y coordinate of the second button
-     * @return true if they are neighbours' coordinates
-     */
-    public boolean coordAreNeighbours(int x1, int y1, int x2, int y2){
-
-        return (x1 == x2 && (Math.abs(y1-y2) == 1)) || (y1 == y2 && (Math.abs(x1-x2) == 1));
-
-    }
-
-
-
-
-
-
-
-
-
-
 
 
     public static void main(String[] args) throws Exception {
