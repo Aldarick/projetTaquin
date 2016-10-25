@@ -9,7 +9,7 @@ import view.MainView;
  */
 public class MainController {
     public static int defaultSize = 4;
-    public static int defaultRandomMovesNumber = 25;
+    public static int defaultRandomMovesNumber = 80;
 
     private MainView view;
     private GameGrid gameGrid;
