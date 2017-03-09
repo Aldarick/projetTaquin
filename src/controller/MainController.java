@@ -43,6 +43,12 @@ public class MainController {
             System.out.println("Swapping");
             this.view.swapButtons(x,y,empty.getX(),empty.getY());
             System.out.println(this.gameGrid.toString());
+
+            // Check if we won
+            if (this.gameGrid.isWon()) {
+                System.out.println("Win");
+                this.view.disableButtons(this.gameGrid.getSize());
+            }
         }
         else {
             System.out.println("Incorrect move");
